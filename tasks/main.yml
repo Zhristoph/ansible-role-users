@@ -1,0 +1,45 @@
+---
+
+- name: Add sudo users by group
+  tags: users
+  set_fact:
+    localSudoUsers: "{{ localSudoUsers | union(item.members) }}"
+  with_items:
+   - "{{ userRoles }}"
+  when: inventory_hostname in item.hosts and item.hasSudo == yes
+
+- name: Local sudo user attributes
+  tags: users
+  set_fact:
+    localSudoUsersAttributes: "{{ localSudoUsers | map('extract', userAccounts ) | list }}"
+
+- name: Add sudo users on host "{{ inventory_hostname }}"
+  tags: users
+  user:
+    name: "{{ item.login }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    password: "{{ [ secretLevel ] | map('extract', item ) | list | first }}"
+  loop: "{{ localSudoUsersAttributes }}"
+
+- name: Add non-sudo users by group
+  tags: users
+  set_fact:
+    localUsers: "{{ localUsers | union(item.members) }}"
+  with_items:
+   - "{{ userRoles }}"
+  when: inventory_hostname in item.hosts and item.hasSudo == no
+
+- name: Local user attributes
+  tags: users
+  set_fact:
+    localUsersAttributes: "{{ localUsers | map('extract', users) | list }}"
+
+- name: Add users on host "{{ inventory_hostname }}"
+  tags: users
+  user:
+    name: "{{ item.login }}"
+    shell: /bin/bash
+    password: "{{ [ secretLevel ] | map('extract', item ) | list | first }}"
+  loop: "{{ localUsersAttributes }}"

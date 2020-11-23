@@ -1,0 +1,18 @@
+all:
+  hosts:
+  children:
+    backend:
+      hosts:
+        server01:
+      vars:
+        secretLevel: extraordinarySecureSecret
+    frontend:
+      hosts:
+        server02:
+      vars:
+        secretLevel: verySecureSecret
+    test:
+      hosts:
+        server03:
+      vars:
+        secretLevel: secureSecret

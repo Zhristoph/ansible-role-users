@@ -1,0 +1,36 @@
+
+userRoles:
+ - roleName: admin
+   members:
+    - user01
+   hosts:
+    - server01
+    - server02
+    - server03
+   hasSudo: yes
+ - roleName: staff
+   members:
+    - user02
+    - user03
+   hosts:
+    - server01
+    - server02
+    - server03
+   hasSudo: no
+
+userAccounts:
+  user01:
+    login: user01
+    secureSecret: secureHashedPasswordString
+    verySecureSecret: verySecureHadhedPasswordString
+    extraordinarySecureSecret: extraordinarySecureHashedPasswordString
+  user02:
+    login: user02
+    secureSecret: secureHashedPasswordString02
+    verySecureSecret: verySecureHadhedPasswordString02
+    extraordinarySecureSecret: extraordinarySecureHashedPasswordString02
+  user03:
+    login: user03
+    secureSecret: secureHashedPasswordString03
+    verySecureSecret: verySecureHadhedPasswordString03
+    extraordinarySecureSecret: extraordinarySecureHashedPasswordString03
