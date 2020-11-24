@@ -6,7 +6,7 @@
     localSudoUsers: "{{ localSudoUsers | union(item.members) }}"
   with_items:
    - "{{ userRoles }}"
-  when: inventory_hostname in item.hosts and item.hasSudo == yes
+  when: inventory_hostname in item.hosts or "all" in item.hosts and item.hasSudo
 
 - name: Local sudo user attributes
   tags: users
@@ -29,7 +29,7 @@
     localUsers: "{{ localUsers | union(item.members) }}"
   with_items:
    - "{{ userRoles }}"
-  when: inventory_hostname in item.hosts and item.hasSudo == no
+  when: inventory_hostname in item.hosts or "all" in item.hosts and not item.hasSudo
 
 - name: Local user attributes
   tags: users
