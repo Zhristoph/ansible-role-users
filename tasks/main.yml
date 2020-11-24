@@ -34,7 +34,7 @@
 - name: Local user attributes
   tags: users
   set_fact:
-    localUsersAttributes: "{{ localUsers | map('extract', users) | list }}"
+    localUsersAttributes: "{{ localUsers | map('extract', userAccounts ) | list }}"
 
 - name: Add users on host "{{ inventory_hostname }}"
   tags: users
