@@ -20,7 +20,7 @@
     shell: /bin/bash
     groups: sudo
     append: yes
-    password: "{{ [ secretLevel ] | map('extract', item ) | list | first }}"
+    password: "{{ [ secretLevel ] | map('extract', item ) | list | first | default('$6$No$PasswordSetForThisSecretLevel', true) }}"
   loop: "{{ localSudoUsersAttributes }}"
 
 - name: Add non-sudo users by group
@@ -41,5 +41,5 @@
   user:
     name: "{{ item.login }}"
     shell: /bin/bash
-    password: "{{ [ secretLevel ] | map('extract', item ) | list | first }}"
+    password: "{{ [ secretLevel ] | map('extract', item ) | list | first | default('$6$No$PasswordSetForThisSecretLevel', true) }}"
   loop: "{{ localUsersAttributes }}"
